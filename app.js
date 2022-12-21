@@ -4,6 +4,7 @@ const app = express();
 
 
 
+
 //security packages
 const helmet = require("helmet")
 const cors = require('cors');
@@ -19,6 +20,13 @@ const authRoute = require("./routes/auth")
 const jobRoute = require("./routes/jobs")
 const connectDb = require('./db/connect')
 const auth = require('./middleware/authentication')
+
+//swagger ui
+const swagger = require('swagger-ui-express')
+const YAML = require('yamljs')
+const swaggerDoc = YAML.load('./swagger.yaml')
+
+
 
 app.set('trust proxy', 1)
 app.use(express.json())
@@ -36,8 +44,9 @@ app.use(xss())
 
 //routes
 app.get("/", (req, res) => {
-res.send("Hello There")
+    res.send("<h1>JOB API DOC</h1> <a href='/api-doc'>Documentation</a>")
 })
+app.use('/api-doc', swagger.serve,swagger.setup(swaggerDoc))
 app.use('/api/v1/auth', authRoute)
 app.use('/api/v1/jobs', auth, jobRoute)
 
