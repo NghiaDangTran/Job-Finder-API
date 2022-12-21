@@ -20,7 +20,7 @@ const jobRoute = require("./routes/jobs")
 const connectDb = require('./db/connect')
 const auth = require('./middleware/authentication')
 
-app.set('trust proxy',1)
+app.set('trust proxy', 1)
 app.use(express.json())
 
 
@@ -35,6 +35,9 @@ app.use(xss())
 
 
 //routes
+app.get("/", (req, res) => {
+res.send("Hello There")
+})
 app.use('/api/v1/auth', authRoute)
 app.use('/api/v1/jobs', auth, jobRoute)
 
